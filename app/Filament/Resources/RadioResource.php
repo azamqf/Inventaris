@@ -1,0 +1,104 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Models\Radio;
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Forms\Form;
+use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use App\Filament\Resources\RadioResource\Pages;
+
+class RadioResource extends Resource
+{
+    protected static ?string $model = Radio::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-device-phone-mobile';
+    protected static ?string $navigationGroup = 'Inventaris';
+    protected static ?string $navigationLabel = 'Radios';
+
+    public static function form(Form $form): Form
+    {
+        return $form->schema([
+            SpatieMediaLibraryFileUpload::make('photo')
+                ->label('Foto Radio')
+                ->collection('radios')
+                ->image()
+                ->imageEditor()
+                ->required(),
+
+            Forms\Components\TextInput::make('serial_number')
+                ->label('Nomor Seri')
+                ->required()
+                ->maxLength(255),
+
+            Forms\Components\Select::make('radio_type_id')
+                ->label('Tipe Radio')
+                ->relationship('radioType', 'name')
+                ->searchable()
+                ->preload()
+                ->required(),
+
+            Forms\Components\Select::make('member_id')
+                ->label('Pengguna')
+                ->relationship('member', 'name')
+                ->searchable()
+                ->preload()
+                ->required(),
+        ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table->columns([
+            SpatieMediaLibraryImageColumn::make('photo')
+                ->label('Foto')
+                ->collection('radios')
+                ->circular(),
+
+            Tables\Columns\TextColumn::make('serial_number')
+                ->label('Nomor Seri')
+                ->sortable()
+                ->searchable(),
+
+            Tables\Columns\TextColumn::make('radioType.name')
+                ->label('Tipe')
+                ->sortable()
+                ->searchable(),
+
+            Tables\Columns\TextColumn::make('member.name')
+                ->label('Pengguna')
+                ->sortable()
+                ->searchable(),
+
+            Tables\Columns\TextColumn::make('created_at')
+                ->label('Dibuat')
+                ->dateTime('d M Y H:i')
+                ->sortable(),
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
+        ->bulkActions([
+            // Tables\Actions\DeleteBulkAction::make(), // aktifkan jika ingin
+        ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListRadios::route('/'),
+            'create' => Pages\CreateRadio::route('/create'),
+            'edit' => Pages\EditRadio::route('/{record}/edit'),
+        ];
+    }
+}
