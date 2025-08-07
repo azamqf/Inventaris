@@ -52,6 +52,11 @@ class GunResource extends Resource
                 ->label('Jenis Senjata')
                 ->relationship('gunType', 'name')
                 ->required(),
+
+            Forms\Components\Select::make('condition_id')
+                ->relationship('condition', 'name')
+                ->label('Kondisi')
+                ->required(),
         ]);
     }
 
@@ -81,6 +86,11 @@ class GunResource extends Resource
                 // 🔗 Jenis senjata
                 Tables\Columns\TextColumn::make('gunType.name')
                     ->label('Jenis')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('condition.name')
+                    ->label('Kondisi')
                     ->sortable()
                     ->searchable(),
 
