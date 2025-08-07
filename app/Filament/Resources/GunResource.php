@@ -22,6 +22,7 @@ class GunResource extends Resource
     // 📌 Navigasi di sidebar admin
     protected static ?string $navigationIcon = 'heroicon-o-fire';
     protected static ?string $navigationLabel = 'Gun';
+    protected static ?string $navigationGroup = 'Gun Management';
 
     // 🧾 FORM INPUT
     public static function form(Form $form): Form
