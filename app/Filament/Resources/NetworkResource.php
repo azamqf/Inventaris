@@ -43,6 +43,11 @@ class NetworkResource extends Resource
                 ->relationship('member', 'name')
                 ->label('Member')
                 ->nullable(),
+
+            Forms\Components\Select::make('condition_id')
+                ->relationship('condition', 'name')
+                ->label('Kondisi')
+                ->required(),
         ]);
     }
 
@@ -69,6 +74,10 @@ class NetworkResource extends Resource
             Tables\Columns\TextColumn::make('member.name')
                 ->label('Member')
                 ->default('-'),
+            Tables\Columns\TextColumn::make('condition.name')
+                ->label('Kondisi')
+                ->sortable()
+                ->searchable(),
 
             Tables\Columns\TextColumn::make('created_at')
                 ->dateTime()

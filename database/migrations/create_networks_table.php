@@ -14,6 +14,7 @@ return new class extends Migration {
             // Pastikan foreignId dibuat dengan unsignedBigInteger secara default
             $table->unsignedBigInteger('network_type_id');
             $table->unsignedBigInteger('member_id')->nullable();
+            $table->foreignId('condition_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
 
