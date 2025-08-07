@@ -20,6 +20,7 @@ class GunTypeResource extends Resource
     protected static ?string $pluralModelLabel = 'Gun Type';
     protected static ?string $modelLabel = 'Gun Type';
     protected static ?string $navigationGroup = 'Gun Management';
+  
     public static function form(Form $form): Form
     {
         return $form
