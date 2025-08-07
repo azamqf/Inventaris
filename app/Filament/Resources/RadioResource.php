@@ -48,6 +48,11 @@ class RadioResource extends Resource
                 ->searchable()
                 ->preload()
                 ->required(),
+
+            Forms\Components\Select::make('condition_id')
+                ->relationship('condition', 'name')
+                ->label('Kondisi')
+                ->required(),
         ]);
     }
 
@@ -73,6 +78,11 @@ class RadioResource extends Resource
                 ->label('Pengguna')
                 ->sortable()
                 ->searchable(),
+
+            Tables\Columns\TextColumn::make('condition.name')
+            ->label('Kondisi')
+            ->sortable()
+            ->searchable(),
 
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Dibuat')

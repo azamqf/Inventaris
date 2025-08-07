@@ -11,7 +11,7 @@ class Radio extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['serial_number', 'radio_type_id', 'member_id'];
+    protected $fillable = ['serial_number', 'radio_type_id', 'member_id', 'condition_id'];
 
     public function radioType()
     {
@@ -27,5 +27,10 @@ class Radio extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('radios')->singleFile();
+    }
+
+    public function  condition()
+    {
+        return $this->belongsTo(condition::class);
     }
 }
