@@ -2,22 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Image\Enums\Fit;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Spatie\MediaLibrary\HasMedia;
-use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Member extends Model implements HasMedia
-
 {
-    use SoftDeletes,HasFactory, InteractsWithMedia;
-
-    protected $table = 'members';
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $fillable = [
         'name',
@@ -39,12 +34,9 @@ class Member extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    // Register Media
-    public function registerMediaConversions(?Media $media = null): void
+    // ✅ Tambahkan ini
+    public function registerMediaCollections(): void
     {
-        $this
-            ->addMediaConversion('preview')
-            ->fit(Fit::Contain, 300, 300)
-            ->nonQueued();
+        $this->addMediaCollection('avatars')->singleFile();
     }
 }

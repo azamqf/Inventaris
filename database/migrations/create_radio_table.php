@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('member_id')
                 ->constrained('members') // eksplisit juga
                 ->onDelete('cascade');
+            $table->foreignId('condition_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
