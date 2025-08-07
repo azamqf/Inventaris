@@ -16,6 +16,7 @@ class Network extends Model implements HasMedia
         'serial_number',
         'network_type_id',
         'member_id',
+        'condition_id'
     ];
 
     /**
@@ -41,4 +42,12 @@ class Network extends Model implements HasMedia
     {
         $this->addMediaCollection('networks');
     }
+
+    // App\Models\Network.php
+
+    public function condition()
+    {
+        return $this->belongsTo(Condition::class);
+    }
+
 }
