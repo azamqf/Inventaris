@@ -12,7 +12,9 @@ return new class extends Migration {
             $table->string('name');
             $table->string('serial_number')->unique();
             $table->foreignId('gun_type_id')->constrained('gun_types')->onDelete('cascade');
+            $table->foreignId('condition_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+             
         });
     }
 
