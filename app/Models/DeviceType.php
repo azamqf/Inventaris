@@ -13,4 +13,9 @@ class DeviceType extends Model
         'name',
         'description',
     ];
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class, 'device_type_id');
+    }
 }

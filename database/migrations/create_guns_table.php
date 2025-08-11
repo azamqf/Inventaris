@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->foreignId('gun_type_id')->constrained('gun_types')->onDelete('cascade');
             $table->foreignId('condition_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-             
+
         });
     }
 

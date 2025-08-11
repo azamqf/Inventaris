@@ -1,6 +1,6 @@
-# 🚀 Aplikasi Inventaris 🚀 
+# 🚀 Aplikasi Inventaris 🚀
 
-Selamat datang di proyek **Aplikasi Inventaris**!   
+Selamat datang di proyek **Aplikasi Inventaris**!
 Sebuah aplikasi web yang dibangun menggunakan **Laravel** dan **Filament Admin Panel**, dikembangkan dengan semangat kolaboratif oleh tim kami untuk memenuhi kebutuhan pengelolaan data yang modern, efisien, dan elegan.
 
 ---
@@ -15,9 +15,9 @@ Sebuah aplikasi web yang dibangun menggunakan **Laravel** dan **Filament Admin P
 
 Proyek ini dikerjakan secara kolaboratif oleh tim hebat kami:
 
-- 👤 **TIK Polres Malang** – Reviewer 
-- 👩‍💻 **Azam** – Project Lead, Integrator, CRUD Modul Data Fitur ......... 
-- 👩‍💻 **Salsa** – CRUD Modul Data Fitur ........  
+- 👤 **TIK Polres Malang** – Reviewer
+- 👩‍💻 **Azam** – Project Lead, Integrator, CRUD Modul Data Fitur .........
+- 👩‍💻 **Salsa** – CRUD Modul Data Fitur ........
 - 👩‍💻 **Firdha** – CRUD Modul Data Fitur ........
 - 👩‍💻 **Mona** – CRUD Modul Data Fitur ........
 

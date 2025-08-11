@@ -11,16 +11,24 @@ class Device extends Model
 
     protected $fillable = [
         'name',
-        'type',
+        'device_type_id',
         'serial_number',
-        'status',
-        'purchase_date',
-        'warranty_expiry',
+        'condition_id',
         'member_id',
     ];
 
     public function member()
     {
         return $this->belongsTo(Member::class);
+    }
+
+    public function deviceType()
+    {
+        return $this->belongsTo(DeviceType::class, 'device_type_id');
+    }
+
+    public function condition()
+    {
+        return $this->belongsTo(Condition::class);
     }
 }
