@@ -17,7 +17,7 @@ class RadioResource extends Resource
     protected static ?string $model = Radio::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-device-phone-mobile';
-    protected static ?string $navigationGroup = 'Inventaris';
+    protected static ?string $navigationGroup = 'Radio Management';
     protected static ?string $navigationLabel = 'Radios';
 
     public static function form(Form $form): Form

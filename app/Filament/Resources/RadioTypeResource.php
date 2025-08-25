@@ -13,7 +13,7 @@ class RadioTypeResource extends Resource
 {
     protected static ?string $model = RadioType::class;
     protected static ?string $navigationIcon = 'heroicon-o-tag';
-    protected static ?string $navigationGroup = 'Inventaris';
+    protected static ?string $navigationGroup = 'Radio Management';
 
     public static function form(Form $form): Form
     {
