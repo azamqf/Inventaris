@@ -107,4 +107,12 @@ class VehicleResource extends Resource
             'edit' => Pages\EditVehicle::route('/{record}/edit'),
         ];
     }
+
+    // ⬇️ Tambahan untuk menampilkan Widget VehicleOverview
+    public static function getWidgets(): array
+    {
+        return [
+            \App\Filament\Resources\CustomResource\Widgets\VehicleOverview::class,
+        ];
+    }
 }

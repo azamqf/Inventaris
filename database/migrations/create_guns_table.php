@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('guns', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Nama senjata
-            $table->string('serial_number')->unique(); // Nomor seri unik
+            $table->string('name');
+            $table->string('serial_number')->unique();
             $table->foreignId('gun_type_id')->constrained('gun_types')->onDelete('cascade');
             $table->foreignId('condition_id')->constrained('conditions')->onDelete('cascade');
             $table->enum('status', ['available', 'unavailable'])->default('available');

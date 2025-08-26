@@ -5,6 +5,7 @@ namespace App\Filament\Resources\VehicleResource\Pages;
 use App\Filament\Resources\VehicleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\CustomResource\Widgets\VehicleOverview;
 
 class ListVehicles extends ListRecords
 {
@@ -14,6 +15,14 @@ class ListVehicles extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    // 👉 Tambahin ini
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            VehicleOverview::class,
         ];
     }
 }

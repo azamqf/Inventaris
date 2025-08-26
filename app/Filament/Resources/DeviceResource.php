@@ -6,9 +6,11 @@ use App\Filament\Resources\DeviceResource\Pages;
 use App\Filament\Resources\DeviceResource\RelationManagers;
 use App\Models\Device;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,12 +25,22 @@ class DeviceResource extends Resource
     {
         return $form
             ->schema([
+                SpatieMediaLibraryFileUpload::make('photo')
+                    ->label('Foto Perangkat')
+                    ->collection('devices')
+                    ->image()
+                    ->required(),
                 Forms\Components\TextInput::make('name')->required(),
-                Forms\Components\TextInput::make('type'),
+                Forms\Components\Select::make('device_type_id')
+                    ->label('Jenis Perangkat')
+                    ->relationship('deviceType', 'name')
+                    ->required()
+                    ->searchable(),
                 Forms\Components\TextInput::make('serial_number')->required(),
-                Forms\Components\TextInput::make('status')->default('Aktif'),
-                Forms\Components\DatePicker::make('purchase_date'),
-                Forms\Components\DatePicker::make('warranty_expiry'),
+                forms\Components\Select::make('condition_id')
+                    ->relationship('condition', 'name')
+                    ->label('Kondisi')
+                    ->required(),
                 Forms\Components\Select::make('member_id')
                     ->relationship('member', 'name')
                     ->searchable()
@@ -40,22 +52,29 @@ class DeviceResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('photo')
+                    ->collection('devices')
+                    ->label('Photo')
+                    ->circular()
+                    ->size(50)
+                    ->defaultIcon('heroicon-o-device-phone'),
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('serial_number')->searchable(),
-                Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('purchase_date')->date(),
-                Tables\Columns\TextColumn::make('warranty_expiry')->date(),
+                Tables\Columns\TextColumn::make('condition.name')
+                    ->label('Kondisi')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('member.name')->label('Member'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Created'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
-                    ->options([
-                        'Aktif' => 'Aktif',
-                        'Rusak' => 'Rusak',
-                        'Dipinjam' => 'Dipinjam',
-                    ]),
+                Tables\Filters\SelectFilter::make('condition_id')
+                    ->relationship('condition', 'name')
+                    ->label('Kondisi Perangkat'),
+                Tables\Filters\SelectFilter::make('device_type_id')
+                    ->relationship('deviceType', 'name')
+                    ->label('Jenis Perangkat'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
