@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('guns', function (Blueprint $table) {
@@ -12,9 +13,9 @@ return new class extends Migration {
             $table->string('name');
             $table->string('serial_number')->unique();
             $table->foreignId('gun_type_id')->constrained('gun_types')->onDelete('cascade');
-            $table->foreignId('condition_id')->constrained()->onDelete('cascade');
+            $table->foreignId('condition_id')->constrained('conditions')->onDelete('cascade');
+            $table->enum('status', ['available', 'unavailable'])->default('available');
             $table->timestamps();
-
         });
     }
 
