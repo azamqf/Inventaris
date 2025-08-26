@@ -12,5 +12,5 @@ class condition extends Model
     use HasFactory,softDeletes;
 
     protected $fillable = ['name'];
-
+       
 }
