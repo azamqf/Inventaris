@@ -18,7 +18,7 @@ class NetworkTypeResource extends Resource
     protected static ?string $model = NetworkType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Inventory';
+    protected static ?string $navigationGroup = 'Network Management';
 
     public static function form(Form $form): Form
     {

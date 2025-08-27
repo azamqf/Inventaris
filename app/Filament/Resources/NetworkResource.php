@@ -18,7 +18,7 @@ class NetworkResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-server';
     protected static ?string $navigationLabel = 'Networks';
-    protected static ?string $navigationGroup = 'Inventory';
+    protected static ?string $navigationGroup = 'Network Management';
 
     public static function form(Form $form): Form
     {
