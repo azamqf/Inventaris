@@ -2,20 +2,31 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Gun extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['name', 'serial_number', 'gun_type_id', 'condition_id'];
+    protected $fillable = [
+        'name',
+        'serial_number',
+        'gun_type_id',
+        'member_id',
+        'condition_id',
+    ];
 
-    public function gunType(): BelongsTo
+    public function type()
     {
-        return $this->belongsTo(GunType::class);
+        return $this->belongsTo(GunType::class, 'gun_type_id');
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
     }
 
     public function condition()
