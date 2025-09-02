@@ -11,6 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\TextColumn;
 
 class VehicleResource extends Resource
 {
@@ -76,22 +77,21 @@ class VehicleResource extends Resource
                 ->collection('vehicles')
                 ->circular(),
 
-            Tables\Columns\TextColumn::make('nomor_kerangka')->label('Nomor Kerangka')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('nomor_mesin')->label('Nomor Mesin')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('nomor_polisi')->label('Nomor Polisi')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('merk')->label('Merk')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('member.name')->label('Member')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('tipe')->label('Tipe')->sortable(),
-            Tables\Columns\TextColumn::make('condition.name')->label('Kondisi')->sortable()->searchable(),
-            Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Dibuat')->sortable(),
+            TextColumn::make('nomor_kerangka')->label('Nomor Kerangka')->sortable()->searchable(),
+            TextColumn::make('nomor_mesin')->label('Nomor Mesin')->sortable()->searchable(),
+            TextColumn::make('nomor_polisi')->label('Nomor Polisi')->sortable()->searchable(),
+            TextColumn::make('merk')->label('Merk')->sortable()->searchable(),
+            TextColumn::make('member.name')->label('Member')->sortable()->searchable(),
+            TextColumn::make('tipe')->label('Tipe')->sortable(),
+            TextColumn::make('condition.name')->label('Kondisi')->sortable()->searchable(),
+            TextColumn::make('created_at')->dateTime()->label('Dibuat')->sortable(),
         ])
         ->actions([
+            Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),
             Tables\Actions\DeleteAction::make(),
         ])
-        ->bulkActions([
-            // Tables\Actions\DeleteBulkAction::make(),
-        ]);
+        ->bulkActions([]);
     }
 
     public static function getRelations(): array
@@ -102,9 +102,12 @@ class VehicleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListVehicles::route('/'),
+            'index'  => Pages\ListVehicles::route('/'),
             'create' => Pages\CreateVehicle::route('/create'),
-            'edit' => Pages\EditVehicle::route('/{record}/edit'),
+            'edit'   => Pages\EditVehicle::route('/{record}/edit'),
+            'view'   => Pages\ViewVehicle::route('/{record}'),
         ];
     }
+
+
 }

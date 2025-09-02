@@ -11,6 +11,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 
 class NetworkResource extends Resource
 {
@@ -74,6 +78,7 @@ class NetworkResource extends Resource
             Tables\Columns\TextColumn::make('member.name')
                 ->label('Member')
                 ->default('-'),
+
             Tables\Columns\TextColumn::make('condition.name')
                 ->label('Kondisi')
                 ->sortable()
@@ -85,12 +90,47 @@ class NetworkResource extends Resource
                 ->sortable(),
         ])
         ->actions([
+            Tables\Actions\ViewAction::make(),   // ✅ Tambah tombol View
             Tables\Actions\EditAction::make(),
             Tables\Actions\DeleteAction::make(),
         ])
         ->bulkActions([
             Tables\Actions\DeleteBulkAction::make(),
         ]);
+    }
+
+    // ✅ Tambah Infolist agar halaman ViewNetwork menampilkan detail rapi
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Detail Network')
+                    ->schema([
+                        SpatieMediaLibraryImageEntry::make('photo')
+                            ->label('Foto')
+                            ->collection('networks')
+                            ->circular(),
+
+                        TextEntry::make('serial_number')
+                            ->label('Serial Number'),
+
+                        TextEntry::make('type.name')
+                            ->label('Tipe Network'),
+
+                        TextEntry::make('member.name')
+                            ->label('Member')
+                            ->default('-'),
+
+                        TextEntry::make('condition.name')
+                            ->label('Kondisi')
+                            ->default('-'),
+
+                        TextEntry::make('created_at')
+                            ->label('Dibuat')
+                            ->dateTime('d M Y H:i'),
+                    ])
+                    ->columns(2),
+            ]);
     }
 
     public static function getRelations(): array
@@ -104,6 +144,7 @@ class NetworkResource extends Resource
             'index' => Pages\ListNetworks::route('/'),
             'create' => Pages\CreateNetwork::route('/create'),
             'edit' => Pages\EditNetwork::route('/{record}/edit'),
+            'view' => Pages\ViewNetwork::route('/{record}'), // ✅ route View aktif
         ];
     }
 }

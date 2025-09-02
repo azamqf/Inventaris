@@ -11,10 +11,21 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use App\Filament\Resources\RadioResource\Pages;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\Section;
 
 class RadioResource extends Resource
 {
     protected static ?string $model = Radio::class;
+
+    // **TAMBAHAN**
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['radioType', 'member', 'condition']);
+    }
 
     protected static ?string $navigationIcon = 'heroicon-o-device-phone-mobile';
     protected static ?string $navigationGroup = 'Radio Management';
@@ -80,9 +91,9 @@ class RadioResource extends Resource
                 ->searchable(),
 
             Tables\Columns\TextColumn::make('condition.name')
-            ->label('Kondisi')
-            ->sortable()
-            ->searchable(),
+                ->label('Kondisi')
+                ->sortable()
+                ->searchable(),
 
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Dibuat')
@@ -90,11 +101,40 @@ class RadioResource extends Resource
                 ->sortable(),
         ])
         ->actions([
+            Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),
             Tables\Actions\DeleteAction::make(),
         ])
-        ->bulkActions([
-            // Tables\Actions\DeleteBulkAction::make(), // aktifkan jika ingin
+        ->bulkActions([]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            Section::make('Detail Radio')
+                ->schema([
+
+                    ImageEntry::make('photo')
+                        ->label('Foto Radio')
+                        ->getStateUsing(fn ($record) => $record->getFirstMediaUrl('radios'))
+                        ->circular(),
+
+                    TextEntry::make('serial_number')
+                        ->label('Nomor Seri'),
+
+                    TextEntry::make('radioType.name')
+                        ->label('Tipe Radio'),
+
+                    TextEntry::make('member.name')
+                        ->label('Pengguna'),
+
+                    TextEntry::make('condition.name')
+                        ->label('Kondisi'),
+
+                    TextEntry::make('created_at')
+                        ->label('Dibuat')
+                        ->dateTime('d M Y H:i'),
+                ]),
         ]);
     }
 
@@ -109,6 +149,7 @@ class RadioResource extends Resource
             'index' => Pages\ListRadios::route('/'),
             'create' => Pages\CreateRadio::route('/create'),
             'edit' => Pages\EditRadio::route('/{record}/edit'),
+            'view' => Pages\ViewRadio::route('/{record}'),
         ];
     }
 }

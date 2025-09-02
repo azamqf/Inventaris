@@ -5,6 +5,7 @@ namespace App\Filament\Resources\GunResource\Pages;
 use App\Filament\Resources\GunResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\CustomResource\Widgets\GunOverview;
 
 class ListGuns extends ListRecords
 {
@@ -14,6 +15,13 @@ class ListGuns extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            GunOverview::class, // ✅ custom widget overview sudah dipanggil
         ];
     }
 }
