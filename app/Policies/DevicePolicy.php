@@ -23,7 +23,14 @@ class DevicePolicy
      */
     public function view(User $user, Device $device): bool
     {
-        return $user->can('view_device');
+        if ($user->can('view_any_device')) {
+            return true;
+        }
+        if ($user->can('view_own_device')) {
+            // Asumsi Device punya relasi member->user_id
+            return $device->member && $device->member->user_id === $user->id;
+        }
+        return false;
     }
 
     /**

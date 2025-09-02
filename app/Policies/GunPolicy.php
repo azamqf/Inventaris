@@ -23,7 +23,14 @@ class GunPolicy
      */
     public function view(User $user, Gun $gun): bool
     {
-        return $user->can('view_gun');
+        if ($user->can('view_any_gun')) {
+            return true;
+        }
+        if ($user->can('view_own_gun')) {
+            // Asumsi Gun punya relasi member->user_id (jika tidak, sesuaikan field relasi)
+            return $gun->member && $gun->member->user_id === $user->id;
+        }
+        return false;
     }
 
     /**

@@ -23,15 +23,14 @@ class RadioPolicy
      */
     public function view(User $user, Radio $radio): bool
     {
-        // return $user->can('view_radio');
-
-        if ($user->hasRole('super_admin')) {
-            return $user->can('view_radio'); // Original code, bawaan dari Filament-Shield
-        } else if ($user->id === $radio->member->user_id) {
-            return $user->can('view_radio');
-        } else {
-            return false;
+        if ($user->can('view_any_radio')) {
+            return true;
         }
+        if ($user->can('view_own_radio')) {
+            // Asumsi Radio punya relasi member->user_id
+            return $radio->member && $radio->member->user_id === $user->id;
+        }
+        return false;
     }
 
     /**

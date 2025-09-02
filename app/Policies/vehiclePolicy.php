@@ -23,7 +23,14 @@ class VehiclePolicy
      */
     public function view(User $user, Vehicle $vehicle): bool
     {
-        return $user->can('view_vehicle');
+        if ($user->can('view_any_vehicle')) {
+            return true;
+        }
+        if ($user->can('view_own_vehicle')) {
+            // Asumsi Vehicle punya relasi member->user_id
+            return $vehicle->member && $vehicle->member->user_id === $user->id;
+        }
+        return false;
     }
 
     /**

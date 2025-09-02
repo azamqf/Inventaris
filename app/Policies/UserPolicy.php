@@ -25,11 +25,21 @@ class UserPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
      * @return bool
      */
-    public function view(User $user): bool
+    public function view(User $user, User $model): bool
     {
-        return $user->can('view_user');
+        // Jika punya permission view_any_user, boleh lihat semua
+        if ($user->can('view_any_user')) {
+            return true;
+        }
+        // Jika punya permission view_own_user, hanya boleh lihat dirinya sendiri
+        if ($user->can('view_own_user')) {
+            return $user->id === $model->id;
+        }
+        // Default: tidak boleh
+        return false;
     }
 
     /**

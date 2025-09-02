@@ -23,7 +23,14 @@ class NetworkPolicy
      */
     public function view(User $user, Network $network): bool
     {
-        return $user->can('view_network');
+        if ($user->can('view_any_network')) {
+            return true;
+        }
+        if ($user->can('view_own_network')) {
+            // Asumsi Network punya relasi member->user_id
+            return $network->member && $network->member->user_id === $user->id;
+        }
+        return false;
     }
 
     /**
