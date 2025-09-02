@@ -20,6 +20,7 @@ class DeviceResource extends Resource
     protected static ?string $model = Device::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Device Management';
 
     public static function form(Form $form): Form
     {
@@ -57,7 +58,7 @@ class DeviceResource extends Resource
                     ->label('Photo')
                     ->circular()
                     ->size(50)
-                    ->defaultIcon('heroicon-o-device-phone'),
+                    ->default('heroicon-o-device-phone'),
                 Tables\Columns\TextColumn::make('name')->searchable(),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('serial_number')->searchable(),
