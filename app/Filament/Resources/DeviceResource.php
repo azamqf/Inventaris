@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DeviceResource\Pages;
 use App\Filament\Resources\DeviceResource\RelationManagers;
+use App\Filament\Resources\DeviceResource\Infolists\DeviceInfo;
 use App\Models\Device;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -14,6 +15,8 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\ViewAction;
+use App\Filament\Resources\DeviceResource\Actions\ExportDevicePdfAction;
 
 class DeviceResource extends Resource
 {
@@ -60,7 +63,10 @@ class DeviceResource extends Resource
                     ->size(50)
                     ->default('heroicon-o-device-phone'),
                 Tables\Columns\TextColumn::make('name')->searchable(),
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('deviceType.name')
+                    ->label('Jenis Perangkat')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('serial_number')->searchable(),
                 Tables\Columns\TextColumn::make('condition.name')
                     ->label('Kondisi')
@@ -69,6 +75,7 @@ class DeviceResource extends Resource
                 Tables\Columns\TextColumn::make('member.name')->label('Member'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->label('Created'),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('condition_id')
                     ->relationship('condition', 'name')
@@ -78,12 +85,13 @@ class DeviceResource extends Resource
                     ->label('Jenis Perangkat'),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                ExportDevicePdfAction::makeSingle(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
+                ExportDevicePdfAction::makeBulk(),
             ]);
     }
 
@@ -101,5 +109,10 @@ class DeviceResource extends Resource
             'create' => Pages\CreateDevice::route('/create'),
             'edit' => Pages\EditDevice::route('/{record}/edit'),
         ];
+    }
+
+    public static function infolist(\Filament\Infolists\Infolist $infolist): \Filament\Infolists\Infolist
+    {
+        return DeviceInfo::make($infolist);
     }
 }
