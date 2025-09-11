@@ -36,11 +36,11 @@ class GunResource extends Resource
                 ->disk('public')
                 ->image()
                 ->nullable(),
-            
+
             Forms\Components\TextInput::make('name')
                 ->label('Nama Gun')
                 ->required()
-                ->maxLength(255),    
+                ->maxLength(255),
 
             Forms\Components\TextInput::make('serial_number')
                 ->label('Serial Number')
@@ -73,7 +73,7 @@ class GunResource extends Resource
                 ->disk('public')
                 ->circular()
                 ->defaultImageUrl('https://ui-avatars.com/api/?name=Gun'),
-            
+
             Tables\Columns\TextColumn::make('name')
                 ->label('Nama Gun')
                 ->sortable()

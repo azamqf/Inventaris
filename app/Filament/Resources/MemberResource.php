@@ -20,6 +20,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Infolists\Components\Section;
 use App\Filament\Resources\MemberResource\Pages;
+use App\Filament\Resources\MemberResource\Actions\ExportMemberPdfAction;
 
 class MemberResource extends Resource
 {
@@ -101,9 +102,11 @@ class MemberResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                ExportMemberPdfAction::makeSingle(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                ExportMemberPdfAction::makeBulk(),
             ]);
     }
 
@@ -144,7 +147,7 @@ class MemberResource extends Resource
             'index' => Pages\ListMembers::route('/'),
             'create' => Pages\CreateMember::route('/create'),
             'edit' => Pages\EditMember::route('/{record}/edit'),
-            'view' => Pages\ViewMember::route('/{record}'),
+            // 'view' => Pages\ViewMember::route('/{record}'),
         ];
     }
 
